@@ -1,4 +1,4 @@
-import "./ProductCard.css";
+import "./Productcard.css";
 import { HeartPlus } from 'lucide-react'
 import { Heart } from 'lucide-react'
 
