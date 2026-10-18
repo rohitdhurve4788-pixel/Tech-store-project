@@ -1,7 +1,7 @@
 import { ProductCard } from "./Productcard.jsx";
 import "./App.css";
 import products from "./data.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function App() {
@@ -9,13 +9,46 @@ function App() {
 
   // console.log(filter);
   // array of product in cart
-  const [cartitem, Setcartitem] = useState([]);
+  const [cartitem, Setcartitem] = useState(()=>{
+    let cartdate= localStorage.getItem('cartitemm')
+    if(cartdate){
+      try {
+       return JSON.parse(cartdate)
+      } catch (error) {
+        console.warn('An Error Accored',error)
+        return []
+      } 
+    } 
+    return []
+  });
+  useEffect(()=>{
+    localStorage.setItem('cartitemm',JSON.stringify(cartitem))
+  },[cartitem])
 
   //  wishlist array of products ids thats are wishlisted
-  const [wishlist, Setwishlist] = useState([]);
+  const [wishlist, Setwishlist] = useState(()=>{
+    let wishlistdata= localStorage.getItem('wish')
+    if(wishlistdata){
+      try {
+        return JSON.parse(wishlistdata)
+      } catch (error) {
+        console.warn('An Error accoued',error)
+        return []
+      }
+    } return  []
+  });
+  useEffect(()=>{
+    localStorage.setItem('wish',JSON.stringify(wishlist))
+  },[wishlist])
 
   // Theme state
-  const [theme, setTheme] = useState('dark');
+const [theme, setTheme] = useState(() => localStorage.getItem('themee') || 'dark')
+
+useEffect(() => {
+  localStorage.setItem('themee', theme)
+      document.documentElement.setAttribute('data-theme', theme);
+
+}, [theme])
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
